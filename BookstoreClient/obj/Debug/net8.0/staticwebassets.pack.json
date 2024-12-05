@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Projects\\BookstoreManagementSystem\\BookstoreClient\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BookstoreClient.bundle.scp.css",
+      "PackagePath": "staticwebassets\\BookstoreClient.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Projects\\BookstoreManagementSystem\\BookstoreClient\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Projects\\BookstoreManagementSystem\\BookstoreClient\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Projects\\BookstoreManagementSystem\\BookstoreClient\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Projects\\BookstoreManagementSystem\\BookstoreClient\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BookstoreClient.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BookstoreClient.props",
+      "PackagePath": "build\\BookstoreClient.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BookstoreClient.props",
+      "PackagePath": "buildMultiTargeting\\BookstoreClient.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BookstoreClient.props",
+      "PackagePath": "buildTransitive\\BookstoreClient.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

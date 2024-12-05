@@ -1,0 +1,96 @@
+﻿@page "/books/edit"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject BookService BookService
+@inject AuthorService AuthorService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit Book</PageTitle>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Edit Book</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @if (Book is null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <div class="card p-4">
+                    <h2>Book Information</h2>
+                    <hr />
+
+                    <EditForm method="post" Model="Book" OnValidSubmit="UpdateBook" FormName="edit" Enhance>
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger" role="alert" />
+
+                        <input type="hidden" name="Book.Id" value="@Book.Id" />
+
+                        <div class="mb-3">
+                            <label for="authorid" class="form-label">Author:</label>
+                            <InputSelect id="authorid" @bind-Value="Book.AuthorId" class="form-control" aria-required="true">
+                                <option value="">-- Select an Author --</option>
+                                @if (Authors != null)
+                                {
+                                    @foreach (var author in Authors)
+                                    {
+                                        <option value="@author.Id">@author.Name</option>
+                                    }
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="() => Book.AuthorId" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title:</label>
+                            <InputText id="title" @bind-Value="Book.Title" class="form-control" aria-required="true" />
+                            <ValidationMessage For="() => Book.Title" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="genre" class="form-label">Genre:</label>
+                            <InputText id="genre" @bind-Value="Book.Genre" class="form-control" aria-required="true" />
+                            <ValidationMessage For="() => Book.Genre" class="text-danger" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/books" type="button" class="btn btn-secondary px-4">Cancel</a>
+                    </EditForm>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private BookDto? Book { get; set; }
+
+    private List<AuthorDto> Authors = new List<AuthorDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Book ??= await BookService.GetBookById(Id);
+        Authors = await AuthorService.GetAuthors();
+
+        if (Book is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task UpdateBook()
+    {
+        if (Book is not null)
+        {
+            await BookService.UpdateBook(Id, Book);
+
+            NavigationManager.NavigateTo("/books");
+        }
+    }
+}

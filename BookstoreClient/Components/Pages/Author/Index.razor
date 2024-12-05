@@ -1,0 +1,72 @@
+﻿@page "/authors"
+@using Backend.Models
+@inject AuthorService AuthorService
+@using BookstoreClient.DataAccess
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<PageTitle>Authors</PageTitle>
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Authors</h3>
+
+    <div class="text-center mb-4">
+        <a href="authors/create" class="btn btn-success">Create New</a>
+    </div>
+
+    @if (authors == null)
+    {
+        <div class="text-center">
+            <p><em>Loading...</em></p>
+        </div>
+    }
+    else if (authors.Count == 0)
+    {
+        <div class="alert alert-info text-center">
+            <p>No authors found.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var author in authors)
+                    {
+                        <tr>
+                            <td>@author.Name</td>
+                            <td class="text-center">
+                                <a href="@($"authors/edit?id={author.Id}")" class="btn btn-primary btn-sm me-2">Edit</a>
+                                <a href="@($"authors/details?id={author.Id}")" class="btn btn-info btn-sm me-2">Details</a>
+                                <a href="@($"authors/delete?id={author.Id}")" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    @if (authors.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="2">
+                                <p>No Data found</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+
+    private List<AuthorDto> authors = new List<AuthorDto>();
+    protected override async Task OnInitializedAsync()
+    {
+        authors = await AuthorService.GetAuthors();
+    }
+}

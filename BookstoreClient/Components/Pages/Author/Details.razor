@@ -1,0 +1,46 @@
+﻿@page "/authors/details"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject AuthorService AuthorService
+
+<PageTitle>Author Details</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <h2 class="text-center mb-4">Author Details</h2>
+            <hr />
+
+            @if (author is null)
+            {
+                <div class="text-center">
+                    <p><em>Loading...</em></p>
+                </div>
+            }
+            else
+            {
+                <dl class="row mb-4">
+                    <dt class="col-sm-4 fw-bold">Name:</dt>
+                    <dd class="col-sm-8">@author.Name</dd>
+                </dl>
+
+                <div class="d-flex justify-content-between">
+                    <a href="@($"/authors/edit?id={author.Id}")" class="btn btn-primary px-4">Edit</a>
+                    <a href="/authors" type="button" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private AuthorDto? author;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        author = await AuthorService.GetAuthorById(Id);
+    }
+}

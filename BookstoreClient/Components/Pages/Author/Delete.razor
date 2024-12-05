@@ -1,0 +1,65 @@
+﻿@page "/authors/delete"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject AuthorService AuthorService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete Author</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <h2 class="text-center text-danger mb-4">Delete Author</h2>
+            <hr />
+
+            @if (author is null)
+            {
+                <div class="text-center">
+                    <p><em>Loading...</em></p>
+                </div>
+            }
+            else
+            {
+                <div class="mb-4">
+                    <h4>Are you sure you want to delete this author?</h4>
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold">Name:</dt>
+                        <dd class="col-sm-8">@author.Name</dd>
+                    </dl>
+                </div>
+
+                <EditForm method="post" Model="author" OnValidSubmit="DeleteAuthor" FormName="delete" Enhance class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger px-4" disabled="@(author is null)">Delete</button>
+                    <a href="/authors" type="button" class="btn btn-secondary px-4">Cancel</a>
+                </EditForm>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private AuthorDto? author;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        author = await AuthorService.GetAuthorById(Id);
+
+        if (author is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteAuthor()
+    {
+        var success = await AuthorService.DeleteAuthor(Id);
+        if (success)
+        {
+            NavigationManager.NavigateTo("/authors");
+        }
+    }
+}

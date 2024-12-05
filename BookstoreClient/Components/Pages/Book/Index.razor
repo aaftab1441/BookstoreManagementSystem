@@ -1,0 +1,61 @@
+﻿@page "/books"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject BookService BookService
+@inject NavigationManager NavigationManager
+
+<h3 class="text-center mb-4">Books</h3>
+
+<div class="text-center mb-4">
+    <a href="books/create" class="btn btn-success">Create New</a>
+</div>
+
+@if (books == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Genre</td>
+                        <td>
+                            <a href="@($"books/edit?id={book.Id}")" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="@($"books/details?id={book.Id}")" class="btn btn-info btn-sm">Details</a>
+                            <a href="@($"books/delete?id={book.Id}")" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+                @if (books.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="3">
+                            <p>No Data found</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    List<BookDto> books = new List<BookDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await BookService.GetBooks();
+    }
+}

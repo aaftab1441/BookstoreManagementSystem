@@ -1,0 +1,42 @@
+﻿@page "/authors/create"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject AuthorService AuthorService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Add Author</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <h2 class="text-center mb-4">Add Author</h2>
+            <hr />
+            <EditForm method="post" Model="Author" OnValidSubmit="AddAuthor" FormName="create" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary class="alert alert-danger" />
+
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Name</label>
+                    <InputText id="Name" class="form-control" @bind-Value="Author.Name" />
+                    <ValidationMessage For="@(() => Author.Name)" class="text-danger" />
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a href="/authors" type="button" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private AuthorDto Author { get; set; } = new();
+
+    private async Task AddAuthor()
+    {
+        var author = await AuthorService.AddAuthor(Author);
+        NavigationManager.NavigateTo("/authors");
+    }
+}

@@ -1,0 +1,70 @@
+﻿@page "/authors/edit"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject AuthorService AuthorService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit Author</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <h2 class="text-center mb-4">Edit Author</h2>
+            <hr />
+
+            @if (Author is null)
+            {
+                <div class="text-center">
+                    <p><em>Loading...</em></p>
+                </div>
+            }
+            else
+            {
+                <EditForm method="post" Model="Author" OnValidSubmit="UpdateAuthor" FormName="edit" Enhance>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="alert alert-danger" role="alert" />
+
+                    <input type="hidden" name="Author.Id" value="@Author.Id" />
+
+                    <div class="mb-3">
+                        <label for="Name" class="form-label fw-bold">Name:</label>
+                        <InputText id="Name" class="form-control" @bind-Value="Author.Name" />
+                        <ValidationMessage For="() => Author.Name" class="text-danger mt-2" />
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-primary px-4">Save</button>
+                        <a href="/authors" type="button" class="btn btn-secondary px-4">Cancel</a>
+                    </div>
+                </EditForm>
+            }
+        </div>
+    </div>
+</div>
+
+@code{
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private AuthorDto? Author { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Author ??= await AuthorService.GetAuthorById(Id);
+
+        if (Author is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task UpdateAuthor()
+    {
+        if (Author is not null)
+        {
+            await AuthorService.UpdateAuthor(Id, Author);
+            NavigationManager.NavigateTo("/authors");
+        }
+    }
+}

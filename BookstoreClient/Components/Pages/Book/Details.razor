@@ -1,0 +1,59 @@
+﻿@page "/books/details"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject BookService BookService
+@inject NavigationManager NavigationManager
+<PageTitle>Book Details</PageTitle>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Book Details</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @if (book is null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <div class="card p-4">
+                    <h2>Book Information</h2>
+                    <hr />
+
+                    <dl class="row">
+                        <dt class="col-sm-4">Author ID</dt>
+                        <dd class="col-sm-8">@book.AuthorId</dd>
+
+                        <dt class="col-sm-4">Title</dt>
+                        <dd class="col-sm-8">@book.Title</dd>
+
+                        <dt class="col-sm-4">Genre</dt>
+                        <dd class="col-sm-8">@book.Genre</dd>
+                    </dl>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="@($"/books/edit?id={book.Id}")" class="btn btn-warning">Edit</a>
+                        <a href="/books" type="button" class="btn btn-secondary px-4">Cancel</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private BookDto? book;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        book = await BookService.GetBookById(Id);
+
+        if (book is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

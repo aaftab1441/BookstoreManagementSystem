@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "Backend\Backend.csproj", "{75E4966A-1F11-41C9-833C-32A220F291CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookstoreClient", "BookstoreClient\BookstoreClient.csproj", "{9C133F87-C5CF-4C88-BB23-B2134B2F80DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75E4966A-1F11-41C9-833C-32A220F291CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E4966A-1F11-41C9-833C-32A220F291CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E4966A-1F11-41C9-833C-32A220F291CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E4966A-1F11-41C9-833C-32A220F291CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C133F87-C5CF-4C88-BB23-B2134B2F80DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C133F87-C5CF-4C88-BB23-B2134B2F80DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C133F87-C5CF-4C88-BB23-B2134B2F80DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C133F87-C5CF-4C88-BB23-B2134B2F80DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D245462-A6FB-4B63-81D5-7521A9CB40FB}
+	EndGlobalSection
+EndGlobal

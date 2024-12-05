@@ -1,0 +1,71 @@
+﻿@page "/books/create"
+@using Backend.Models
+@using BookstoreClient.DataAccess
+@inject BookService BookService
+@inject AuthorService AuthorService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Book</PageTitle>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Create Book</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <EditForm method="post" Model="Book" OnValidSubmit="AddBook" FormName="create" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger mb-3" role="alert" />
+
+                <div class="mb-3">
+                    <label for="authorid" class="form-label">Author</label>
+                    <InputSelect id="authorid" @bind-Value="Book.AuthorId" class="form-control" aria-required="true">
+                        <option value="">-- Select an Author --</option>
+                        @if (Authors != null)
+                        {
+                            @foreach (var author in Authors)
+                            {
+                                <option value="@author.Id">@author.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Book.AuthorId" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <InputText id="title" @bind-Value="Book.Title" class="form-control" aria-required="true" />
+                    <ValidationMessage For="() => Book.Title" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="genre" class="form-label">Genre</label>
+                    <InputText id="genre" @bind-Value="Book.Genre" class="form-control" aria-required="true" />
+                    <ValidationMessage For="() => Book.Genre" class="text-danger" />
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <a href="/books" type="button" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private BookDto Book { get; set; } = new();
+    private List<AuthorDto> Authors = new List<AuthorDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Authors = await AuthorService.GetAuthors();
+    }
+
+    private async Task AddBook()
+    {
+        await BookService.AddBook(Book);
+
+        NavigationManager.NavigateTo("/books");
+    }
+}
